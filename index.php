@@ -1,7 +1,7 @@
 <?php
-
 require_once "Car.php";
 require_once "Form.php";
+require 'head.php';
 
 $car = new Car('db.json');
 
