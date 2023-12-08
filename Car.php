@@ -17,29 +17,39 @@ class Car extends FileManager
         array_push($this->cars, $newCar);
         $this::save($this->cars, $this->file);
     }
+    public function deleteAll()
+    {
+        $array = array();
+        $this::save($array, $this->file);
+    }
     public function delete($id)
     {
         unset($this->cars[$id]);
         $this::save($this->cars, $this->file);
     }
+
     public function all()
     {
         return $this->cars;
     }
     public function allCars()
     {
-        echo '<table class="table table-auto w-full "><thead><tr><th class="border-r">ID</th><th class="border-r">Марка</th><th class="border-r">Модель</th><th class="border-r">Цвет</th><th class="border-r">Двигатель</th><th class="border-r">Год выпуска</th><th class="border-r">Пробег</th><th class="border-r">Стоянка</th><th class="border-r">Состояние фар</th><th>Состояние дверей</th></thead><tbody>';
-        foreach ($this->cars as $car) {
-            $index = array_search($car, $this->cars);
-                echo "<tr class='border-t'><td class='py-2 border-r'>$index</td><td class='border-r pl-1'>$car[марка]</td><td class='border-r pl-1'>$car[модель]</td><td class='border-r pl-1'>$car[цвет]</td><td class='border-r pl-1'>$car[двигатель]</td><td class='border-r pl-1'>$car[год_выпуска]</td><td class='border-r'>$car[пробег]</td><td class='border-r pl-1'>$car[стоянка]</td>";
-            if ($car['фары'] == 'Включены') {
-                echo"<td class='bg-yellow-500 text-black border-r pl-1'>$car[фары]</td>";
-            } else {
-                 echo "<td class='border-r pl-1'>$car[фары]</td>";
+        if ($this->cars != []) {
+            echo '<table class="table table-auto w-full "><thead><tr><th class="border-r">ID</th><th class="border-r">Марка</th><th class="border-r">Модель</th><th class="border-r">Цвет</th><th class="border-r">Двигатель</th><th class="border-r">Год выпуска</th><th class="border-r">Пробег</th><th class="border-r">Стоянка</th><th class="border-r">Состояние фар</th><th>Состояние дверей</th></thead><tbody>';
+            foreach ($this->cars as $car) {
+                $index = array_search($car, $this->cars);
+                    echo "<tr class='border-t'><td class='py-2 border-r'>$index</td><td class='border-r pl-1'>$car[марка]</td><td class='border-r pl-1'>$car[модель]</td><td class='border-r pl-1'>$car[цвет]</td><td class='border-r pl-1'>$car[двигатель]</td><td class='border-r pl-1'>$car[год_выпуска]</td><td class='border-r'>$car[пробег]</td><td class='border-r pl-1'>$car[стоянка]</td>";
+                if ($car['фары'] == 'Включены') {
+                    echo"<td class='bg-yellow-500 text-black border-r pl-1'>$car[фары]</td>";
+                } else {
+                     echo "<td class='border-r pl-1'>$car[фары]</td>";
+                }
+                echo "<td class='pl-1'>$car[двери]</td></tr>";
             }
-            echo "<td class='pl-1'>$car[двери]</td></tr>";
+            echo '</tbody></table>';
+        } else{
+            echo "<h1>No cars...</h1>";
         }
-        echo '</tbody></table>';
     }
     public function find($parametr)
     {

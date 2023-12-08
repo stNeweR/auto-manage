@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once "Car.php";
 require_once "Form.php";
 require 'head.php';
@@ -22,10 +23,10 @@ if (isset($_POST['type']) && $_POST['type'] == 'add'){
 
 if (isset($_POST['type']) && $_POST['type'] === 'update') {
     if (isset($car->all()[$_POST['id']])){
-        echo "<h2>Измените машину</h2>";
+        echo "<h2 class='text-2xl'>Измените машину</h2>";
         Form::form($car->all()[$_POST['id']], 'addUpdate', 'required', false, 'blue-900',  "Изменить", "blue-700",  $_POST['id'] );
     } else {
-        echo '<h1>Такой машины нет!</h1>';
+        echo '<h1 class="text-2xl">Такой машины нет!</h1>';
     }
 }
 
@@ -46,7 +47,17 @@ if (isset($_POST['type']) && $_POST['type'] === 'clear') {
     unset($_POST['type']);
     header('Location: /');
 }
+
+if (isset($_POST['type']) && $_POST['type'] === 'deleteAll') {
+    $car->deleteAll();
+}
+
 ?>
+<form action="" method="post" class="flex items-center">
+    <label for="" class="text-2xl">Удалить все</label>
+    <input type='hidden' name='type' value='deleteAll'>
+    <button type="submit" class="py-2 px-5 bg-red-900 rounded-lg m-2 hover:bg-red-700 delay-50">Удалить все</button>
+</form>
 
 <form action="" method="post" class="flex items-center">
     <label for="" class="text-2xl">НАЗАД!</label>
@@ -56,13 +67,14 @@ if (isset($_POST['type']) && $_POST['type'] === 'clear') {
 <form action="" method="post" class="my-2">
     <label for="id" class="text-2xl">УДАЛИТЬ!</label>
     <input type='hidden' name='type' value='delete'>
-    <input name="id" id="id" placeholder="Введите id" type="number" class="py-1 px-2 bg-slate-200 rounded placeholder-slate-900 text-black">
+    <input name="id" id="id" placeholder="Введите id" type="number" class="py-1 px-2 bg-slate-300 rounded placeholder-slate-900 text-black">
     <button type="submit" class="py-2 px-5 bg-red-900 rounded-lg mx-2 hover:bg-red-700 delay-50">УДАЛИТЬ</button>
 </form>
+
 <form action="" method="post" class="my-2">
     <label for="id" class="text-2xl">ИЗМЕНИТЬ!</label>
     <input type='hidden' name='type' value='update'>
-    <input name="id" id="id" placeholder="Введите id" type="number" class="py-1 px-2 bg-slate-200 rounded placeholder-slate-900 text-black">
+    <input name="id" id="id" placeholder="Введите id" type="number" class="py-1 px-2 bg-slate-300 rounded placeholder-slate-900 text-black">
     <button class="py-2 px-5 bg-blue-900 rounded-lg mx-2 hover:bg-blue-700 delay-50" type="submit">ИЗМЕНИТЬ</button>
 </form>
 
@@ -70,4 +82,5 @@ if (isset($_POST['type']) && $_POST['type'] === 'clear') {
 echo '<div class="flex">';
 $car->allCars();
 echo '</div>';
+ob_end_flush();
 ?>
